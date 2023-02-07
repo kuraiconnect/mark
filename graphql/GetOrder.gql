@@ -1,0 +1,89 @@
+query GetOrder($company_uuids: [String]!, $company_type: String!, $page: Int!) {
+  listOrders(
+    page: $page
+    company_type: $company_type
+    company_uuids: $company_uuids
+  ) {
+    ... on OrderPagination {
+      data {
+        uuid
+        user_uuid
+        company_buyer_uuid
+        company_buyer_name
+        company_seller_uuid
+        company_seller_name
+        created_at
+        available_statuses
+        status
+        order_items {
+          uuid
+          order_uuid
+          catalog_item_uuid
+          names
+          prices
+          weight_key
+          amount
+        }
+        order_reports {
+          order_uuid
+          user_uuid
+          difference {
+            old {
+              order {
+                uuid
+                user_uuid
+                company_buyer_uuid
+                company_buyer_name
+                company_seller_uuid
+                company_seller_name
+                created_at
+                status
+                currency_code
+                order_items {
+                  uuid
+                  order_uuid
+                  catalog_item_uuid
+                  names
+                  prices
+                  weight_key
+                  amount
+                }
+              }
+            }
+            new {
+              order {
+                uuid
+                user_uuid
+                company_buyer_uuid
+                company_buyer_name
+                company_seller_uuid
+                company_seller_name
+                created_at
+                status
+                currency_code
+                order_items {
+                  uuid
+                  order_uuid
+                  catalog_item_uuid
+                  names
+                  prices
+                  weight_key
+                  amount
+                }
+              }
+            }
+          }
+          created_at
+        }
+      }
+    }
+    ... on ValidationError {
+      __typename
+      errors
+    }
+    ... on AuthenticationError {
+      __typename
+      errors
+    }
+  }
+}
